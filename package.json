@@ -23,14 +23,17 @@
     "@payloadcms/plugin-seo": "^3.67.0",
     "@payloadcms/richtext-lexical": "3.67.0",
     "@payloadcms/ui": "3.67.0",
+    "@tailwindcss/postcss": "^4.1.17",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
     "graphql": "^16.8.1",
     "next": "15.4.8",
     "payload": "3.67.0",
+    "postcss": "^8.5.6",
     "react": "19.2.1",
     "react-dom": "19.2.1",
-    "sharp": "0.34.2"
+    "sharp": "0.34.2",
+    "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",

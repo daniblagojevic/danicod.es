@@ -1,6 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from 'payload'
-import { Testimonial } from '@/blocks/Testimonial/config'
+import { Hero } from '@/blocks/Hero/config'
+import { Content } from '@/blocks/Content/config'
+import { List } from '@/blocks/List/config'
+import { Tags } from '@/blocks/Tags/config'
+
 import {
     MetaDescriptionField,
     MetaImageField,
@@ -32,7 +36,7 @@ export const Pages: CollectionConfig = {
                             name: 'layout',
                             type: 'blocks',
                             required: false,
-                            blocks: [Testimonial],
+                            blocks: [Hero, Content, List, Tags],
                         },
                     ],
                 },

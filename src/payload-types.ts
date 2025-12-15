@@ -225,7 +225,7 @@ export interface Media {
  */
 export interface Page {
   id: string;
-  layout?: TestimonialBlock[] | null;
+  layout?: (HeroBlock | ContentBlock | ListBlock | TagsBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -245,10 +245,36 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialBlock".
+ * via the `definition` "HeroBlock".
  */
-export interface TestimonialBlock {
-  name: string;
+export interface HeroBlock {
+  title: string;
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image: string | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  title: string;
   text: {
     root: {
       type: string;
@@ -266,7 +292,53 @@ export interface TestimonialBlock {
   };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'testimonial';
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ListBlock".
+ */
+export interface ListBlock {
+  title: string;
+  items: {
+    image: string | Media;
+    title: string;
+    text: string;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    muted: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'list';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TagsBlock".
+ */
+export interface TagsBlock {
+  title: string;
+  items: {
+    title: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tags';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -468,7 +540,10 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        testimonial?: T | TestimonialBlockSelect<T>;
+        hero?: T | HeroBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        list?: T | ListBlockSelect<T>;
+        tags?: T | TagsBlockSelect<T>;
       };
   meta?:
     | T
@@ -485,11 +560,56 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialBlock_select".
+ * via the `definition` "HeroBlock_select".
  */
-export interface TestimonialBlockSelect<T extends boolean = true> {
-  name?: T;
+export interface HeroBlockSelect<T extends boolean = true> {
+  title?: T;
   text?: T;
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock_select".
+ */
+export interface ContentBlockSelect<T extends boolean = true> {
+  title?: T;
+  text?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ListBlock_select".
+ */
+export interface ListBlockSelect<T extends boolean = true> {
+  title?: T;
+  items?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        text?: T;
+        content?: T;
+        muted?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TagsBlock_select".
+ */
+export interface TagsBlockSelect<T extends boolean = true> {
+  title?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

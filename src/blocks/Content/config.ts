@@ -1,12 +1,16 @@
 import { Block } from 'payload'
 
-export const Testimonial: Block = {
-    slug: 'testimonial',
-    interfaceName: 'TestimonialBlock',
+export const Content: Block = {
+    slug: 'content',
+    labels: {
+        singular: 'Content',
+        plural: 'Contents',
+    },
+    interfaceName: 'ContentBlock',
     fields: [
         {
-            label: 'Name',
-            name: 'name',
+            label: 'Title',
+            name: 'title',
             type: 'text',
             required: true,
         },

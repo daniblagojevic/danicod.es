@@ -1,18 +1,16 @@
 import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
-//import { HeroBlock } from '@/blocks/Hero/Component'
-//import { GalleryBlock } from '@/blocks/Gallery/Component'
-import { TestimonialBlock } from '@/blocks/Testimonial/Component'
-//import { CallToActionBlock } from '@/blocks/CallToAction/Component'
-//import { FormBlock } from '@/blocks/Form/Component'
+import { HeroBlock } from '@/blocks/Hero/Component'
+import { ContentBlock } from '@/blocks/Content/Component'
+import { ListBlock } from '@/blocks/List/Component'
+import { TagsBlock } from '@/blocks/Tags/Component'
 
 const blockComponents = {
-    //hero: HeroBlock,
-    //gallery: GalleryBlock,
-    testimonial: TestimonialBlock,
-    //cta: CallToActionBlock,
-    //form: FormBlock,
+    hero: HeroBlock,
+    content: ContentBlock,
+    list: ListBlock,
+    tags: TagsBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -33,6 +31,7 @@ export const RenderBlocks: React.FC<{
                         if (Block) {
                             return (
                                 <section key={index}>
+                                    {/* @ts-expect-error there may be some mismatch between the expected types here */}
                                     <Block {...block} />
                                 </section>
                             )

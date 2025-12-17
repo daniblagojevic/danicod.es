@@ -4,6 +4,7 @@ import { Hero } from '@/blocks/Hero/config'
 import { Content } from '@/blocks/Content/config'
 import { List } from '@/blocks/List/config'
 import { Tags } from '@/blocks/Tags/config'
+import { Archive } from '@/blocks/Archive/config'
 
 import {
     MetaDescriptionField,
@@ -36,7 +37,7 @@ export const Pages: CollectionConfig = {
                             name: 'layout',
                             type: 'blocks',
                             required: false,
-                            blocks: [Hero, Content, List, Tags],
+                            blocks: [Hero, Content, List, Tags, Archive],
                         },
                     ],
                 },
@@ -74,5 +75,14 @@ export const Pages: CollectionConfig = {
             },
         },
         slugField(),
+        {
+            label: 'Featured Image',
+            name: 'featuredImage',
+            type: 'upload',
+            relationTo: 'media',
+            admin: {
+                position: 'sidebar',
+            },
+        },
     ],
 }

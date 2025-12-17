@@ -5,12 +5,14 @@ import { HeroBlock } from '@/blocks/Hero/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { ListBlock } from '@/blocks/List/Component'
 import { TagsBlock } from '@/blocks/Tags/Component'
+import { ArchiveBlock } from '@/blocks/Archive/Component'
 
 const blockComponents = {
     hero: HeroBlock,
     content: ContentBlock,
     list: ListBlock,
     tags: TagsBlock,
+    archive: ArchiveBlock,
 }
 
 export const RenderBlocks: React.FC<{

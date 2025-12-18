@@ -45,16 +45,11 @@ export const ArchiveBlock: React.FC<Props> = async ({
     }
 
     return (
-        <section className="py-16">
+        <div className="py-12">
             <Header header={header} />
-
-            {relationTo === 'projects' && <ProjectsArchive posts={posts} />}
-
-            {/* Debug info */}
-            <details className="mt-8 opacity-50">
-                <summary>Raw Data (Debug)</summary>
-                <pre>{JSON.stringify(posts, null, 2)}</pre>
-            </details>
-        </section>
+            <div className="pt-12">
+                {relationTo === 'projects' && <ProjectsArchive posts={posts} />}
+            </div>
+        </div>
     )
 }

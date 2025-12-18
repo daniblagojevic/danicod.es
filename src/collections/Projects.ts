@@ -39,6 +39,7 @@ export const Projects: CollectionConfig = {
                     fields: [
                         {
                             name: 'content',
+                            label: false,
                             type: 'richText',
                             editor: lexicalEditor({
                                 features: ({ rootFeatures }) => {
@@ -54,8 +55,31 @@ export const Projects: CollectionConfig = {
                                     ]
                                 },
                             }),
-                            label: false,
                             required: true,
+                        },
+                        {
+                            name: 'tags',
+                            type: 'array',
+                            label: 'Tags',
+                            fields: [
+                                {
+                                    name: 'tag',
+                                    type: 'text',
+                                    label: 'Tag',
+                                    required: true,
+                                },
+                            ],
+                        },
+                        {
+                            name: 'websiteLink',
+                            type: 'text',
+                            label: 'Website Link',
+                        },
+
+                        {
+                            name: 'sourceLink',
+                            type: 'text',
+                            label: 'Source Link',
                         },
                     ],
                 },

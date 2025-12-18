@@ -227,7 +227,7 @@ export interface Media {
  */
 export interface Page {
   id: string;
-  layout?: (HeroBlock | ContentBlock | ListBlock | TagsBlock | ArchiveBlock)[] | null;
+  layout?: (HeroBlock | ContentBlock | ListBlock | TagsBlock | ArchiveBlock | FormBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -401,6 +401,14 @@ export interface Project {
     };
     [k: string]: unknown;
   };
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  websiteLink?: string | null;
+  sourceLink?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -419,6 +427,39 @@ export interface Project {
   featuredVideo?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock".
+ */
+export interface FormBlock {
+  header: {
+    highlight: string;
+    title: string;
+    text: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  title: string;
+  items: {
+    title: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'form';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -629,6 +670,7 @@ export interface PagesSelect<T extends boolean = true> {
         list?: T | ListBlockSelect<T>;
         tags?: T | TagsBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
+        form?: T | FormBlockSelect<T>;
       };
   meta?:
     | T
@@ -720,10 +762,40 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock_select".
+ */
+export interface FormBlockSelect<T extends boolean = true> {
+  header?:
+    | T
+    | {
+        highlight?: T;
+        title?: T;
+        text?: T;
+      };
+  title?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
   content?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  websiteLink?: T;
+  sourceLink?: T;
   meta?:
     | T
     | {

@@ -5,6 +5,7 @@ import { Content } from '@/blocks/Content/config'
 import { List } from '@/blocks/List/config'
 import { Tags } from '@/blocks/Tags/config'
 import { Archive } from '@/blocks/Archive/config'
+import { Form } from '@/blocks/Form/config'
 
 import {
     MetaDescriptionField,
@@ -37,7 +38,7 @@ export const Pages: CollectionConfig = {
                             name: 'layout',
                             type: 'blocks',
                             required: false,
-                            blocks: [Hero, Content, List, Tags, Archive],
+                            blocks: [Hero, Content, List, Tags, Archive, Form],
                         },
                     ],
                 },

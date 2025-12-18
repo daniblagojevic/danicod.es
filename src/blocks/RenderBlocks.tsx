@@ -6,6 +6,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { ListBlock } from '@/blocks/List/Component'
 import { TagsBlock } from '@/blocks/Tags/Component'
 import { ArchiveBlock } from '@/blocks/Archive/Component'
+import { FormBlock } from '@/blocks/Form/Component'
 
 const blockComponents = {
     hero: HeroBlock,
@@ -13,6 +14,7 @@ const blockComponents = {
     list: ListBlock,
     tags: TagsBlock,
     archive: ArchiveBlock,
+    form: FormBlock,
 }
 
 export const RenderBlocks: React.FC<{

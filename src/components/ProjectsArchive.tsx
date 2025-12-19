@@ -1,5 +1,7 @@
-import type { Project } from '@/payload-types'
+'use client'
 
+import type { Project } from '@/payload-types'
+import { useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -17,6 +19,15 @@ export type Props = {
 
 export const ProjectsArchive: React.FC<Props> = (props) => {
     const { posts } = props
+
+    const [open, setOpen] = useState(false)
+    const [activePost, setActivePost] = useState<Project | null>(null)
+
+    const handleVideoClick = (post: Project) => {
+        setActivePost(post)
+        setOpen(true)
+    }
+
     return (
         <>
             <div>
@@ -24,20 +35,36 @@ export const ProjectsArchive: React.FC<Props> = (props) => {
                     <ul className="grid grid-cols-2 gap-3">
                         {posts.map((post, index) => (
                             <li key={post.id} className="col-span-2 sm:col-span-1">
-                                <Card post={post} />
+                                <Card post={post} onVideoClick={() => handleVideoClick(post)} />
                             </li>
                         ))}
                     </ul>
                 )}
             </div>
-            <Dialog>
-                <DialogTrigger>Open</DialogTrigger>
-                <DialogContent className="sm:max-w-4xl">
+            <Dialog open={open} onOpenChange={(open) => !open && setOpen(false)}>
+                <DialogContent className="sm:max-w-4xl p-4">
                     <DialogHeader>
-                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogTitle>{activePost?.title}</DialogTitle>
                         <DialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
+                            {activePost?.featuredVideo &&
+                            typeof activePost.featuredVideo !== 'string' ? (
+                                <video
+                                    preload="auto"
+                                    className="sm:min-h-[450px] w-full"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    controls
+                                >
+                                    <source
+                                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${activePost.featuredVideo.url!}`}
+                                        type="video/mp4"
+                                    />
+                                </video>
+                            ) : (
+                                <div>fsdfdsf</div>
+                            )}
                         </DialogDescription>
                     </DialogHeader>
                 </DialogContent>

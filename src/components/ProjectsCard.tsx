@@ -8,14 +8,23 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 export type Props = {
     post: Project
+    onVideoClick?: () => void
 }
 
 export const Card: React.FC<Props> = (props) => {
-    const { post } = props
+    const { post, onVideoClick } = props
     return (
         <div className="rounded-lg bg-card text-card-foreground flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full">
             {post?.featuredVideo && typeof post.featuredVideo !== 'string' && (
-                <video preload="auto" autoPlay loop muted playsInline>
+                <video
+                    preload="auto"
+                    className="cursor-pointer"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onClick={onVideoClick}
+                >
                     <source
                         src={`${process.env.NEXT_PUBLIC_SERVER_URL}${post.featuredVideo.url!}`}
                         type="video/mp4"

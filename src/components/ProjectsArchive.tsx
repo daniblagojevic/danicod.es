@@ -48,15 +48,7 @@ export const ProjectsArchive: React.FC<Props> = (props) => {
                         <DialogDescription>
                             {activePost?.featuredVideo &&
                             typeof activePost.featuredVideo !== 'string' ? (
-                                <video
-                                    preload="auto"
-                                    className="sm:min-h-[450px] w-full"
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
-                                    controls
-                                >
+                                <video preload="auto" className="sm:min-h-[450px] w-full" controls>
                                     <source
                                         src={`${process.env.NEXT_PUBLIC_SERVER_URL}${activePost.featuredVideo.url!}`}
                                         type="video/mp4"

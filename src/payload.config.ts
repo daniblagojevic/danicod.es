@@ -7,6 +7,9 @@ import sharp from 'sharp'
 
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
+import { formBuilderPlugin, fields } from '@payloadcms/plugin-form-builder'
+import { name, label, required, width, placeholder } from '@/plugins/formBuilder/fieldConfig'
+
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -39,6 +42,68 @@ export default buildConfig({
             generateTitle: ({ doc }) => doc.title,
             generateDescription: ({ doc }) => doc.plaintext,
             generateURL: ({ doc }) => `${BASE_URL}/${doc.slug}`,
+        }),
+        formBuilderPlugin({
+            fields: {
+                text: {
+                    fields: [
+                        {
+                            type: 'row',
+                            fields: [name, label],
+                        },
+                        {
+                            type: 'row',
+                            fields: [placeholder, width],
+                        },
+                        {
+                            type: 'row',
+                            fields: [required],
+                        },
+                    ],
+                },
+                email: {
+                    fields: [
+                        {
+                            type: 'row',
+                            fields: [name, label],
+                        },
+                        {
+                            type: 'row',
+                            fields: [placeholder, width],
+                        },
+                        {
+                            type: 'row',
+                            fields: [required],
+                        },
+                    ],
+                },
+                textarea: {
+                    fields: [
+                        {
+                            type: 'row',
+                            fields: [name, label],
+                        },
+                        {
+                            type: 'row',
+                            fields: [placeholder, width],
+                        },
+                        {
+                            type: 'row',
+                            fields: [required],
+                        },
+                    ],
+                },
+            },
+            formOverrides: {
+                admin: {
+                    group: 'Forms',
+                },
+            },
+            formSubmissionOverrides: {
+                admin: {
+                    group: 'Forms',
+                },
+            },
         }),
     ],
 })

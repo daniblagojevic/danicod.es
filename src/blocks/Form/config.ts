@@ -11,24 +11,11 @@ export const Form: Block = {
     fields: [
         headerField,
         {
-            label: 'Title',
-            name: 'title',
-            type: 'text',
+            label: 'Form',
+            name: 'form',
+            type: 'relationship',
+            relationTo: 'forms',
             required: true,
-        },
-        {
-            label: 'Items',
-            name: 'items',
-            type: 'array',
-            required: true,
-            fields: [
-                {
-                    label: 'Title',
-                    name: 'title',
-                    type: 'text',
-                    required: true,
-                },
-            ],
         },
     ],
 }

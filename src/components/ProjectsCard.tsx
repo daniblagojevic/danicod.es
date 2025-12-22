@@ -18,7 +18,7 @@ export const Card: React.FC<Props> = (props) => {
             {post?.featuredVideo && typeof post.featuredVideo !== 'string' && (
                 <video
                     preload="auto"
-                    className="cursor-pointer"
+                    className="cursor-pointer h-40 object-cover object-top w-full"
                     autoPlay
                     loop
                     muted

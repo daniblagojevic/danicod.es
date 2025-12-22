@@ -8,6 +8,30 @@ import Page404 from '@/components/404'
 import type { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
 
+export async function generateStaticParams() {
+    const payload = await getPayload({ config: configPromise })
+    const pages = await payload.find({
+        collection: 'pages',
+        draft: false,
+        limit: 1000,
+        overrideAccess: false,
+        pagination: false,
+        select: {
+            slug: true,
+        },
+    })
+
+    const params = pages.docs
+        ?.filter((doc) => {
+            return doc.slug !== 'home'
+        })
+        .map(({ slug }) => {
+            return { slug }
+        })
+
+    return params
+}
+
 type Args = {
     params: Promise<{
         slug?: string

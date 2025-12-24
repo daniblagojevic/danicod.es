@@ -9,11 +9,11 @@ type Props = {
 export const FormBlock: React.FC<Props> = ({ header, form }) => {
     return (
         <>
-            {typeof form == 'object' && typeof form.id == 'number' && (
+            {typeof form == 'object' && (
                 <div className="py-12">
                     <Header header={header} />
                     <div className="pt-12">
-                        <FormBuilder formId={form.id} />
+                        <FormBuilder form={form} />
                     </div>
                 </div>
             )}

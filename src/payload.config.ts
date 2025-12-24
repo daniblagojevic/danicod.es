@@ -5,6 +5,8 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
+import { resendAdapter } from '@payloadcms/email-resend'
+
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
 import { formBuilderPlugin, fields } from '@payloadcms/plugin-form-builder'
@@ -106,4 +108,9 @@ export default buildConfig({
             },
         }),
     ],
+    email: resendAdapter({
+        defaultFromAddress: 'dani@danicod.es',
+        defaultFromName: 'danicod.es',
+        apiKey: process.env.RESEND_API_KEY || '',
+    }),
 })

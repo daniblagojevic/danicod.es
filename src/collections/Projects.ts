@@ -30,6 +30,7 @@ export const Projects: CollectionConfig = {
         title: true,
         slug: true,
     },
+    orderable: true,
     fields: [
         {
             type: 'tabs',

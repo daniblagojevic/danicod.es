@@ -1,5 +1,13 @@
 import type { Block } from 'payload'
 import { headerField } from '@/fields/header'
+import { geoConditionField } from '@/fields/geoCondition'
+import countries from '@/data/countries.json' // Import the JSON directly
+
+// Map the JSON to the format Payload expects: { label: string, value: string }
+const countryOptions = countries.map((country) => ({
+    label: country.name,
+    value: country.code,
+}))
 
 export const Archive: Block = {
     slug: 'archive',
@@ -65,5 +73,6 @@ export const Archive: Block = {
             relationTo: ['projects'],
             required: true,
         },
+        geoConditionField,
     ],
 }

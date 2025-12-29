@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Header from '@/components/Header'
 import { ProjectsArchive } from '@/components/ProjectsArchive'
+import { getVisitorCountry } from '@/utilities/getGeo'
 
 // Import all types that could be returned
 import type { Project, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
@@ -20,7 +21,26 @@ export const ArchiveBlock: React.FC<Props> = async ({
     relationTo,
     limit: limitFromProps,
     selectedDocs,
+    geoCondition,
 }) => {
+    // Geographic validation
+
+    const { mode, countries } = geoCondition || { mode: 'none' }
+
+    if (mode !== 'none') {
+        const visitorCountry = await getVisitorCountry()
+
+        if (mode === 'blacklist' && countries?.includes(visitorCountry as any)) {
+            return null // User is in a forbidden country
+        }
+
+        if (mode === 'whitelist' && !countries?.includes(visitorCountry as any)) {
+            return null // User is NOT in an allowed country
+        }
+    }
+
+    // Fetch posts
+
     const limit = limitFromProps || 3
 
     let posts: CollectionTypes[] = []

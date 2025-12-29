@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import Header from '@/components/Header'
 import { ProjectsArchive } from '@/components/ProjectsArchive'
 import { getVisitorCountry } from '@/utilities/getGeo'
+import { getUser } from '@/utilities/getUser'
 
 // Import all types that could be returned
 import type { Project, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
@@ -23,11 +24,15 @@ export const ArchiveBlock: React.FC<Props> = async ({
     selectedDocs,
     geoCondition,
 }) => {
+    // Get user
+
+    const user = await getUser()
+
     // Geographic validation
 
     const { mode, countries } = geoCondition || { mode: 'none' }
 
-    if (mode !== 'none') {
+    if (mode !== 'none' && user?.id !== process.env.SUPER_ADMIN_ID) {
         const visitorCountry = await getVisitorCountry()
 
         if (mode === 'blacklist' && countries?.includes(visitorCountry as any)) {

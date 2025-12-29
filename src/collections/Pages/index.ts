@@ -15,6 +15,8 @@ import {
     PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
+import { revalidateDelete, revalidateChange } from './hooks/revalidatePage'
+
 export const Pages: CollectionConfig = {
     slug: 'pages',
     admin: {
@@ -86,4 +88,8 @@ export const Pages: CollectionConfig = {
             },
         },
     ],
+    hooks: {
+        afterChange: [revalidateChange],
+        afterDelete: [revalidateDelete],
+    },
 }

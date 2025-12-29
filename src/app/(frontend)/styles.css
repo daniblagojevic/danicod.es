@@ -13,6 +13,21 @@
     --breakpoint-xl: 1200px;
     --breakpoint-2xl: 1400px;
 
+    /* fade up animation */
+
+    @keyframes fade-up-blur {
+        from {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+    }
+    --animate-fade-up-blur: fade-up-blur 0.5s ease-out forwards;
 }
 
 @utility container {

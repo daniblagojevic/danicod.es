@@ -34,7 +34,13 @@ export const RenderBlocks: React.FC<{
 
                         if (Block) {
                             return (
-                                <section key={index}>
+                                <section
+                                    key={index}
+                                    className="animate-fade-up-blur opacity-0"
+                                    style={{
+                                        animationDelay: `${index * 250}ms`,
+                                    }}
+                                >
                                     {/* @ts-expect-error there may be some mismatch between the expected types here */}
                                     <Block {...block} />
                                 </section>

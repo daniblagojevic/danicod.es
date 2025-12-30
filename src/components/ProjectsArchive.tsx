@@ -42,9 +42,9 @@ export const ProjectsArchive: React.FC<Props> = (props) => {
                 )}
             </div>
             <Dialog open={open} onOpenChange={(open) => !open && setOpen(false)}>
-                <DialogContent className="sm:max-w-4xl p-4">
+                <DialogContent className="sm:max-w-4xl p-2 sm:p-4">
                     <DialogHeader>
-                        <DialogTitle>{activePost?.title}</DialogTitle>
+                        <DialogTitle className="py-1">{activePost?.title}</DialogTitle>
                         <DialogDescription>
                             {activePost?.featuredVideo &&
                             typeof activePost.featuredVideo !== 'string' ? (

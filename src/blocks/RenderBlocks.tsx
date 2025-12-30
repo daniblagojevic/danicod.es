@@ -38,7 +38,7 @@ export const RenderBlocks: React.FC<{
                                     key={index}
                                     className="animate-fade-up-blur opacity-0"
                                     style={{
-                                        animationDelay: `${(Number(index) + 1) * 250}ms`,
+                                        animationDelay: `${(Number(index) + 1) * 150}ms`,
                                     }}
                                 >
                                     {/* @ts-expect-error there may be some mismatch between the expected types here */}

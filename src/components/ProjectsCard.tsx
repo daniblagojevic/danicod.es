@@ -15,21 +15,19 @@ export const Card: React.FC<Props> = (props) => {
     const { post, onVideoClick } = props
     return (
         <div className="rounded-lg bg-card text-card-foreground flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full">
-            {post?.featuredVideo && typeof post.featuredVideo !== 'string' && (
-                <video
-                    preload="auto"
-                    className="cursor-pointer h-40 object-cover object-top w-full"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    onClick={onVideoClick}
-                >
-                    <source
-                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${post.featuredVideo.url!}`}
-                        type="video/mp4"
-                    />
-                </video>
+            {post?.vimeoVideo && (
+                <div className="relative w-full aspect-18/9 overflow-hidden">
+                    <iframe
+                        className="absolute inset-0 w-full h-full border-0 block"
+                        src={`https://player.vimeo.com/video/${post.vimeoVideo}?autoplay=1&badge=0&autopause=0&app_id=58479&loop=1&controls=0&muted=1`}
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        title={post.title}
+                    ></iframe>
+                    <div
+                        className="absolute top-0 left-0 bottom-0 right-0 cursor-pointer"
+                        onClick={onVideoClick}
+                    ></div>
+                </div>
             )}
             <div className="p-2 grow">
                 <div className="h-full flex flex-col justify-between">

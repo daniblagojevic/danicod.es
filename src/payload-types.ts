@@ -688,6 +688,7 @@ export interface Project {
   slug: string;
   featuredImage?: (string | null) | Media;
   featuredVideo?: (string | null) | Media;
+  vimeoVideo?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1268,6 +1269,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   slug?: T;
   featuredImage?: T;
   featuredVideo?: T;
+  vimeoVideo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

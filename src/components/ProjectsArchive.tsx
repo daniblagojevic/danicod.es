@@ -45,17 +45,16 @@ export const ProjectsArchive: React.FC<Props> = (props) => {
                 <DialogContent className="sm:max-w-4xl p-2 sm:p-4">
                     <DialogHeader>
                         <DialogTitle className="py-1">{activePost?.title}</DialogTitle>
-                        <DialogDescription>
-                            {activePost?.featuredVideo &&
-                            typeof activePost.featuredVideo !== 'string' ? (
-                                <video preload="auto" className="sm:min-h-[450px] w-full" controls>
-                                    <source
-                                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}${activePost.featuredVideo.url!}`}
-                                        type="video/mp4"
-                                    />
-                                </video>
-                            ) : (
-                                <div>fsdfdsf</div>
+                        <DialogDescription asChild>
+                            {activePost?.vimeoVideo && (
+                                <div>
+                                    <iframe
+                                        className="w-full h-full border-0 block aspect-18/9"
+                                        src={`https://player.vimeo.com/video/${activePost.vimeoVideo}?autoplay=1&badge=0&autopause=0&app_id=58479&loop=1&muted=1`}
+                                        allow="autoplay; fullscreen; picture-in-picture"
+                                        title={activePost.title}
+                                    ></iframe>
+                                </div>
                             )}
                         </DialogDescription>
                     </DialogHeader>

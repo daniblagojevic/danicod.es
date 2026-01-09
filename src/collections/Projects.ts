@@ -132,10 +132,9 @@ export const Projects: CollectionConfig = {
             },
         },
         {
-            label: 'Featured Video',
-            name: 'featuredVideo',
-            type: 'upload',
-            relationTo: 'media',
+            label: 'Vimeo Video',
+            name: 'vimeoVideo',
+            type: 'text',
             admin: {
                 position: 'sidebar',
             },

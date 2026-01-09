@@ -35,6 +35,7 @@ export const RenderBlocks: React.FC<{
                         if (Block) {
                             return (
                                 <section
+                                    id={index + '-' + blockType}
                                     key={index}
                                     className="animate-fade-up-blur opacity-0"
                                     style={{

@@ -61,12 +61,24 @@ export const ArchiveBlock: React.FC<Props> = async ({
 
         posts = fetchedPosts.docs
     } else if (populateBy === 'selection' && selectedDocs?.length) {
-        posts = selectedDocs
-            .map((post) => {
-                if (typeof post.value === 'object') return post.value
-                return null
-            })
-            .filter(Boolean) as CollectionTypes[]
+        const payload = await getPayload({ config: configPromise })
+
+        const ids = selectedDocs
+            .map((doc) => (typeof doc.value === 'object' ? doc.value.id : doc.value))
+            .filter(Boolean)
+
+        const fetchedPosts = await payload.find({
+            collection: relationTo as any,
+            depth: 1,
+            limit,
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        })
+
+        posts = fetchedPosts.docs
     }
 
     return (

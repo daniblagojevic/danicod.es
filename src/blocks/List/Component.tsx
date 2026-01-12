@@ -88,8 +88,10 @@ export const ListBlock: React.FC<Props> = ({ title, items }) => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <AccordionContent className="mt-2 text-xs sm:text-sm">
-                                                    <RichText data={item.content} />
+                                                <AccordionContent className="mt-2">
+                                                    <div className="[&_a]:text-black [&_a]:underline [&_a:hover]:text-black text-xs sm:text-sm">
+                                                        <RichText data={item.content} />
+                                                    </div>
                                                 </AccordionContent>
                                             </div>
                                         </div>

@@ -29,6 +29,7 @@
         "@payloadcms/plugin-form-builder": "3.67.0",
         "@payloadcms/plugin-seo": "3.67.0",
         "@payloadcms/richtext-lexical": "3.67.0",
+        "@payloadcms/storage-r2": "3.67.0",
         "@payloadcms/ui": "3.67.0",
         "@radix-ui/react-accordion": "^1.2.12",
         "@radix-ui/react-dialog": "^1.1.15",

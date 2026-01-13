@@ -18,7 +18,7 @@ export const Card: React.FC<Props> = (props) => {
             {post?.vimeoVideo && (
                 <div className="relative w-full aspect-18/9 overflow-hidden">
                     <iframe
-                        className="absolute inset-0 w-full h-full border-0 block"
+                        className="absolute inset-0 w-full h-full border-none block"
                         src={`https://player.vimeo.com/video/${post.vimeoVideo}?autoplay=1&badge=0&autopause=0&app_id=58479&loop=1&controls=0&muted=1`}
                         allow="autoplay; fullscreen; picture-in-picture"
                         title={post.title}

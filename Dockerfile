@@ -1,78 +1,135 @@
-# To use this Dockerfile, you have to set `output: 'standalone'` in your next.config.mjs file.
-# From https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
-
-FROM node:22.17.0-alpine AS base
-
-# Install dependencies only when needed
-FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+# ============================================
+# Dependencies Stage
+# ============================================
+FROM node:20-alpine AS deps
 WORKDIR /app
-
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
-
-# Rebuild the source code only when needed
-FROM base AS builder
+ 
+# Enable corepack (for managing package manager versions)
+RUN corepack enable
+ 
+# Copy package management files
+COPY package.json pnpm-lock.yaml* ./
+ 
+# Prefetch dependencies using cache mount
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store/v3 \
+  pnpm fetch
+# Install dependencies using cache mount (frozen lockfile, offline mode)
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store/v3 \
+  pnpm install --frozen-lockfile --offline
+ 
+# ============================================
+# Build Stage
+# ============================================
+FROM node:20-alpine AS builder
 WORKDIR /app
+ 
+# Enable corepack
+RUN corepack enable
+ 
+# Copy node_modules from dependencies stage
 COPY --from=deps /app/node_modules ./node_modules
+# Copy all source code
 COPY . .
-
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
-# Only public envs allowed here
+ 
+# ============================================
+# Build Arguments
+# Only declare variables needed at build time
+# ============================================
+ 
+# NEXT_PUBLIC_* variables (will be embedded in client-side JavaScript)
 ARG NEXT_PUBLIC_SERVER_URL
-ENV NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+ 
+# S3 Storage
+ARG S3_ENDPOINT
+ARG S3_BUCKET
+ARG S3_ACCESS_KEY_ID
+ARG S3_SECRET
+ 
+# DATABASE_URI is needed for static site generation (SSG) at build time
+ARG DATABASE_URI
+
+# RESEND
+ARG RESEND_API_KEY
+
+# PAYLOAD_SECRET
 ARG PAYLOAD_SECRET
+
+# SUPER_ADMIN_ID
+ARG SUPER_ADMIN_ID
+
+# NODE_ENV
+ARG NODE_ENV
+ 
+# ============================================
+# Build Environment Variables
+# ============================================
+ 
+# Set NEXT_PUBLIC_* as environment variables so Next.js can embed them in the bundle
+ENV NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+ 
+# S3 Storage
+ENV S3_ENDPOINT=${S3_ENDPOINT}
+ENV S3_BUCKET=${S3_BUCKET}
+ENV S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+ENV S3_SECRET=${S3_SECRET}
+
+# DATABASE_URI for static site generation
+ENV DATABASE_URI=${DATABASE_URI}
+ 
+# RESEND
+ENV RESEND_API_KEY=${RESEND_API_KEY}
+ 
+# PAYLOAD_SECRET
 ENV PAYLOAD_SECRET=${PAYLOAD_SECRET}
+
+# SUPER_ADMIN_ID
+ENV SUPER_ADMIN_ID=${SUPER_ADMIN_ID}
+
+# Set NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+
+# Disable Next.js telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN \
-  if [ -f yarn.lock ]; then yarn run build; \
-  elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
-# Production image, copy all the files and run next
-FROM base AS runner
+ 
+# Build the application
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store/v3 \
+  pnpm build
+ 
+# ============================================
+# Runtime Stage
+# ============================================
+FROM node:20-alpine AS runner
 WORKDIR /app
-
-ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
+ 
+# ============================================
+# No build arguments or environment variables needed here
+# All runtime secrets will be injected by the container runtime (dokploy)
+# Next.js standalone mode reads environment variables at runtime
+# ============================================
+ 
+# Set production environment
+ENV NODE_ENV=production
+# Disable Next.js telemetry
+ENV NEXT_TELEMETRY_DISABLED=1
+ 
+# Create system user group and user (for secure execution)
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
-# Remove this line if you do not have this folder
+ 
+# Copy necessary files from build stage
 COPY --from=builder /app/public ./public
-
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
+ 
+# Switch to non-root user
 USER nextjs
-
+ 
+# Expose port
 EXPOSE 3000
-
-ENV PORT 3000
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD HOSTNAME="0.0.0.0" node server.js
+ 
+# Set port and hostname
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+ 
+# Start the application
+CMD ["node", "server.js"]

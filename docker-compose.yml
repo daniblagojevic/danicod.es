@@ -1,43 +1,28 @@
-version: '3'
+version: '3.8'
 
 services:
   payload:
-    image: node:18-alpine
+    # IMPORTANT: Replace with your actual GitHub Registry image path
+    image: ghcr.io/daniblagojevic/danicod.es:latest
+    pull_policy: always
     ports:
       - '3000:3000'
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    # Remove the volumes and working_dir used for local dev
+    # Remove the 'command' line; your Dockerfile should handle the start command
     depends_on:
       - mongo
-      # - postgres
+    # In Dokploy, it is better to use the "Environment Variables" tab 
+    # instead of env_file, but you can keep this if the file exists on the server.
     env_file:
       - .env
 
-  # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
     image: mongo:latest
-    ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+    # Do not expose ports to the public in production unless necessary
+    # ports:
+    #   - '27017:27017'
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
-
-  # Uncomment the following to use postgres
-  # postgres:
-  #   restart: always
-  #   image: postgres:latest
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
+      - mongo_data:/data/db
 
 volumes:
-  data:
-  # pgdata:
-  node_modules:
+  mongo_data:

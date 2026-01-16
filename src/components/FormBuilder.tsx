@@ -129,9 +129,11 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form }) => {
                                     </Field>
                                 </div>
                             ))}
-                            <Field orientation="horizontal">
-                                <Button type="submit">{form.submitButtonLabel}</Button>
-                            </Field>
+                            <div className="col-span-10">
+                                <Button type="submit" className="w-full">
+                                    {form.submitButtonLabel}
+                                </Button>
+                            </div>
                         </div>
                     </form>
                     {success && (

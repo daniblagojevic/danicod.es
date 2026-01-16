@@ -37,3 +37,4 @@ jobs:
           tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
           build-args: |
             NEXT_PUBLIC_SERVER_URL=${{ vars.NEXT_PUBLIC_SERVER_URL }}
+          progress: plain

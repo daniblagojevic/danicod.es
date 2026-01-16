@@ -3,6 +3,8 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // Your Next.js config here
+    output: 'standalone', // can significantly reduce the build image size.
+
     htmlLimitedBots: /.*/,
     webpack: (webpackConfig) => {
         webpackConfig.resolve.extensionAlias = {

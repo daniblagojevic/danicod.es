@@ -130,9 +130,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form }) => {
                                 </div>
                             ))}
                             <div className="col-span-10">
-                                <Button type="submit" className="bg-green-500">
-                                    {form.submitButtonLabel}
-                                </Button>
+                                <Button type="submit">{form.submitButtonLabel}</Button>
                             </div>
                         </div>
                     </form>

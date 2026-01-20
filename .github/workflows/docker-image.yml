@@ -54,7 +54,6 @@ jobs:
             NEXT_PUBLIC_SERVER_URL=${{ vars.NEXT_PUBLIC_SERVER_URL }}
             DATABASE_URI=${{ secrets.DATABASE_URI }}
             PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
-            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
             NODE_ENV=${{ secrets.NODE_ENV }}
             SUPER_ADMIN_ID=${{ secrets.SUPER_ADMIN_ID }}
             S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}

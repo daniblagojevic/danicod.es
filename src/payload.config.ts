@@ -8,6 +8,8 @@ import { s3Storage } from '@payloadcms/storage-s3'
 
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+
 import { formBuilderPlugin, fields } from '@payloadcms/plugin-form-builder'
 import { name, label, required, width, placeholder } from '@/plugins/formBuilder/fieldConfig'
 
@@ -22,6 +24,19 @@ const dirname = path.dirname(filename)
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
 export default buildConfig({
+    email: nodemailerAdapter({
+        defaultFromAddress: process.env.SMTP_USER || '',
+        defaultFromName: process.env.SMTP_NAME || '',
+        transportOptions: {
+            host: process.env.SMTP_HOST || '',
+            port: parseInt(process.env.SMTP_PORT!) || 587,
+            secure: process.env.SMTP_SECURE === 'true',
+            auth: {
+                user: process.env.SMTP_USER || '',
+                pass: process.env.SMTP_PASS || '',
+            },
+        },
+    }),
     admin: {
         user: Users.slug,
         importMap: {

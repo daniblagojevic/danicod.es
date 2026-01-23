@@ -16,6 +16,8 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 
+import { Spinner } from '@/components/ui/spinner'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faX } from '@fortawesome/free-solid-svg-icons'
@@ -54,10 +56,16 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form }) => {
     const [error, setError] = useState<ErrorProps>(null)
     const [success, setSuccess] = useState<SuccessProps>(null)
 
+    const [loading, setLoading] = useState(false)
+
     if (!form) return null
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        setLoading(true)
+        setError(null)
+        setSuccess(null)
 
         const formEl = e.currentTarget
         const formData = new FormData(e.currentTarget)
@@ -97,6 +105,8 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form }) => {
                 description:
                     "I'll fix that. In the meantime, you can reach me directly via email: dani@danicod.es",
             })
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -130,7 +140,10 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form }) => {
                                 </div>
                             ))}
                             <div className="col-span-10">
-                                <Button type="submit">{form.submitButtonLabel}</Button>
+                                <Button type="submit">
+                                    {loading && <Spinner className="h-4 w-4" />}
+                                    {loading ? 'Sending...' : form.submitButtonLabel}
+                                </Button>
                             </div>
                         </div>
                     </form>
